@@ -4,6 +4,7 @@ import java.io.InvalidObjectException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,18 +52,28 @@ public class PessoaController {
 		try {
 			Pessoa p1 = service.salvarPessoa(pessoa);
 			return new ResponseEntity<>(p1, HttpStatus.CREATED);
-		} catch (Exception e) {
+		} catch (DuplicateKeyException e) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa) {
-		Pessoa updatedPessoa = service.updatePessoa(id, pessoa);
-		if (updatedPessoa != null) {
-			return new ResponseEntity<>(updatedPessoa, HttpStatus.OK);
-		} else {
+		try {
+			Pessoa updatedPessoa = service.updatePessoa(id, pessoa);
+			if (updatedPessoa != null) {
+				return new ResponseEntity<>(updatedPessoa, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (EntityNotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (DuplicateKeyException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

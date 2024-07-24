@@ -44,7 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(pessoa)
             })
             .then(response => {
-                if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('Pessoa não encontrada.');
+                } else if (response.status === 409) {
+                    throw new Error('Pessoa com o mesmo CPF ou email já existe.');
+                } else if (!response.ok) {
                     return response.text().then(text => {
                         throw new Error(`Falha ao atualizar pessoa: ${text}`);
                     });
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 resetForm();
                 fetchPessoas();
             })
-            .catch(error => console.error('Erro ao atualizar pessoa:', error));
+             .catch(error => console.error('Erro ao atualizar pessoa:CPF invalido!', error)); 
         } else {
             // Criar pessoa
             fetch('http://localhost:8080/pessoas', {
@@ -69,8 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => {
                 if (response.status === 409) {
                     throw new Error('Pessoa com o mesmo CPF ou email já existe.');
-                }
-                if (!response.ok) {
+                } else if (!response.ok) {
                     return response.text().then(text => {
                         throw new Error(`Falha ao criar pessoa: ${text}`);
                     });
@@ -82,10 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 resetForm();
                 fetchPessoas();
             })
-            .catch(error => console.error('Erro ao criar pessoa:', error));
-            
+            .catch(error => console.error('Erro ao criar pessoa: CPF invalido!', error));
         }
-
+        
         // Reseta o modo do formulário após a operação
         pessoaForm.dataset.mode = '';
     });

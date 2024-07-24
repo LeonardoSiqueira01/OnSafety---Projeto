@@ -10,6 +10,12 @@ header {
     background-color: #4CAF50;
     color: white;
     padding: 20px 0;
+    
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: left;
 }
 
 main {
@@ -51,14 +57,13 @@ button {
 }
 
 button:hover {
-    background-color: #4CAF50;
+    background-color: #45a049;
 }
 
 .logo {
-    margin-left: -2200px;
-    width: 160px;
-    height: 120px;
-    margin-top: 15px;
+    width: 100%;
+    max-width: 160px;
+    height: auto;
     border-radius: 10px;
 }
 
@@ -67,36 +72,18 @@ h1 {
     margin-top: -75px;
     padding-bottom: 35px;
 }
-#formSection {
-    background-color: #c8cec9; /* Altere para a cor desejada */
-    padding: 20px; /* Adiciona algum preenchimento interno para o conteúdo */
-    border-radius: 8px; /* Adiciona bordas arredondadas, opcional */
+
+#formSection, #searchForm, #searchResult {
+    background-color: #c8cec9;
+    padding: 20px;
+    border-radius: 8px;
     margin-left: 5px;
     margin-right: 200px;
-    
 }
 
-#searchForm{
-    background-color: #c8cec9; /* Altere para a cor desejada */
-    padding: 20px; /* Adiciona algum preenchimento interno para o conteúdo */
-    border-radius: 8px; /* Adiciona bordas arredondadas, opcional */
-    margin-left: 5px;
-    margin-right: 200px;
-
-}
-#searchResult{
-    background-color: #c8cec9; /* Altere para a cor desejada */
-    padding: 20px; /* Adiciona algum preenchimento interno para o conteúdo */
-    border-radius: 8px; /* Adiciona bordas arredondadas, opcional */
-    margin-left: 5px;
-    margin-right: 200px;
-
-}
-
-#SearchSection{
+#searchSection {
     text-align: left;
 }
-
 
 form div {
     margin-bottom: 10px;
@@ -114,31 +101,130 @@ input[type="datetime"],
 input[type="hidden"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid c8cec9;
+    border: 1px solid #c8cec9;
     border-radius: 5px;
-    margin-bottom: 10px; /* Adiciona um espaço entre os campos */
+    margin-bottom: 10px;
 }
 
-.teste{
+.teste {
     text-align: left;
 }
 
-#pessoasTable{
+#pessoasTable {
     background-color: #c8cec9;
-    color
 }
- .tit{
-    text-align: left;
- }
 
+.tit {
+    text-align: left;
+}
 
 #listarTodosBtn {
-    display: flex; /* Usa flexbox para controle de layout */
-    justify-content: left; /* Alinha o conteúdo do botão à esquerda */
-    padding: 10px 10px; /* Ajusta o padding interno do botão */
-    border: none; /* Remove a borda padrão do botão */
-    background-color: 4CAF50; /* Cor de fundo do botão */
-    color: white; /* Cor do texto do botão */
-   
-    cursor: pointer; /* Muda o cursor para indicar um botão clicável */
+    display: flex;
+    justify-content: left;
+    padding: 10px 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+img {
+    max-width: 100%; /* Ajusta a largura da imagem para não ultrapassar o contêiner */
+    height: auto;    /* Mantém a proporção da imagem */
+}.container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+
+@media (max-width: 1200px) {
+    #formSection, #searchForm, #searchResult {
+        margin-right: 20px;
+    }
+    .navbar-container {
+        justify-content: left;
+    }
+    
+
+}
+
+@media (max-width: 768px) {
+    body {
+        text-align: left;
+    
+        
+    }
+    header h1 {
+        margin-top: 0;
+        padding-bottom: 10px;
+    }
+
+    .logo {
+        max-width: 120px;
+        height: auto;
+        margin-top: 0;
+    }
+
+    #formSection, #searchForm, #searchResult {
+        margin-right: 5px;
+        margin-left: 5px;
+        padding: 10px;
+    }
+
+    input, button {
+        padding: 5px;
+        margin-left: 0;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    #pessoasTable {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 80px;
+        height: auto;
+       
+            display: flex;
+        justify-content: flex-start;
+            float: left;
+    
+        
+    }
+
+    h1, h2 {
+        font-size: 1.2em;
+    }
+
+    input, button {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    #formSection, #searchForm, #searchResult {
+        margin-right: 0;
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    #listarTodosBtn {
+        font-size: 14px;
+    }
 }
