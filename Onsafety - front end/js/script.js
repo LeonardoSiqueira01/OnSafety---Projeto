@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (mode === 'edit' && id) {
-            // Atualizar pessoa
+            // Atualizar pessoa      
+   //Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
             fetch(`http://localhost:8080/pessoas/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
              .catch(error => console.error('Erro ao atualizar pessoa:CPF invalido!', error)); 
         } else {
             // Criar pessoa
+    //Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
             fetch('http://localhost:8080/pessoas', {
                 method: 'POST',
                 headers: {
@@ -116,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function fetchPessoas() {
+//Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
         fetch('http://localhost:8080/pessoas')
             .then(response => {
                 if (!response.ok) {
@@ -162,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Por favor, insira um ID para buscar.');
             return;
         }
-
+//Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
         fetch(`http://localhost:8080/pessoas/${searchId}`)
             .then(response => {
                 if (!response.ok) {
@@ -212,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     window.editPessoa = function(id) {
+//Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
         fetch(`http://localhost:8080/pessoas/${id}`)
             .then(response => {
                 if (!response.ok) {
@@ -233,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.deletePessoa = function(id) {
+ //Caso sua porta na configuração do projeto Back-end seja diferente altere ela aqui de 8080 para a porta desejada
         fetch(`http://localhost:8080/pessoas/${id}`, {
             method: 'DELETE'
         })
