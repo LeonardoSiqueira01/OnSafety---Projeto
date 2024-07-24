@@ -51,7 +51,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #4CAF50;
 }
 
 .logo {
@@ -124,5 +124,21 @@ input[type="hidden"] {
 }
 
 #pessoasTable{
-    background-color: #e8ece9;
+    background-color: #c8cec9;
+    color
+}
+ .tit{
+    text-align: left;
+ }
+
+
+#listarTodosBtn {
+    display: flex; /* Usa flexbox para controle de layout */
+    justify-content: left; /* Alinha o conteúdo do botão à esquerda */
+    padding: 10px 10px; /* Ajusta o padding interno do botão */
+    border: none; /* Remove a borda padrão do botão */
+    background-color: 4CAF50; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+   
+    cursor: pointer; /* Muda o cursor para indicar um botão clicável */
 }

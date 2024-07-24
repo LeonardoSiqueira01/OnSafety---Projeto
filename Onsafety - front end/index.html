@@ -36,9 +36,11 @@
                         pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
                         title="CPF deve estar no formato 123.456.789-00">
                 </div>
-                <div>
-                    <label for="dataNascimento">Data de Nascimento:</label>
-                    <input type="datetime" id="dataNascimento" required>
+                
+                    <div>
+                        <label for="dataNascimento">Data de Nascimento:</label>
+                        <input type="text" id="dataNascimento" required pattern="\d{2}\/\d{2}\/\d{4}"title="Data deve estar no formato 27/12/2000">
+                    
                 </div>
                 <div>
                     <label for="email">Email:</label>
@@ -49,7 +51,7 @@
         </section>
 
         <section id="searchSection">
-            <h2>Buscar Pessoa por ID</h2>
+            <h2 class="tit">Buscar Pessoa por ID</h2>
             <form id="searchForm">
                 <div>
                     <label for="searchId">ID:</label>

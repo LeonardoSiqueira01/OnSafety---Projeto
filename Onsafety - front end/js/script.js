@@ -14,18 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const id = document.getElementById('id').value;
         const nome = document.getElementById('nome').value;
-        const cpf = document.getElementById('cpf').value; // Remove formatação do CPF
+        const cpf = document.getElementById('cpf').value;
         const dataNascimento = document.getElementById('dataNascimento').value;
         const email = document.getElementById('email').value;
-
-        // Verifique se a data já está no formato correto
-        const dataNascimentoFormatada = converterDataParaYYYYMMDD(dataNascimento);
 
         const pessoa = {
             id,
             nome,
             cpf,
-            dataNascimento: dataNascimentoFormatada,
+            dataNascimento,
             email
         };
 
@@ -70,6 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(pessoa)
             })
             .then(response => {
+                if (response.status === 409) {
+                    throw new Error('Pessoa com o mesmo CPF ou email já existe.');
+                }
                 if (!response.ok) {
                     return response.text().then(text => {
                         throw new Error(`Falha ao criar pessoa: ${text}`);
@@ -83,23 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetchPessoas();
             })
             .catch(error => console.error('Erro ao criar pessoa:', error));
+            
         }
 
         // Reseta o modo do formulário após a operação
         pessoaForm.dataset.mode = '';
     });
-
-    function converterDataParaYYYYMMDD(data) {
-        if (!data) return '';
-        const partes = data.split('/');
-        return `${partes[2]}-${partes[1]}-${partes[0]}`;
-    }
-
-    function converterDataParaDDMMYYYY(data) {
-        if (!data) return '';
-        const partes = data.split('-');
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
-    }
 
     function resetForm() {
         document.getElementById('id').value = '';
@@ -134,23 +123,27 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(pessoas => {
                 pessoasCache = pessoas; // Atualizar o cache
-                pessoasTable.innerHTML = '';
-                pessoas.forEach(pessoa => {
-                    const row = pessoasTable.insertRow();
-                    row.innerHTML = `
-                        <td>${pessoa.id}</td>
-                        <td>${pessoa.nome}</td>
-                        <td>${pessoa.cpf}</td>
-                        <td>${converterDataParaDDMMYYYY(pessoa.dataNascimento)}</td>
-                        <td>${pessoa.email}</td>
-                        <td>
-                            <button onclick="editPessoa(${pessoa.id})">Editar</button>
-                            <button onclick="deletePessoa(${pessoa.id})">Excluir</button>
-                        </td>
-                    `;
-                });
+                renderPessoas(pessoas); // Atualiza a tabela
             })
             .catch(error => console.error('Erro:', error));
+    }
+
+    function renderPessoas(pessoas) {
+        pessoasTable.innerHTML = ''; // Limpa o conteúdo da tabela
+        pessoas.forEach(pessoa => {
+            const row = pessoasTable.insertRow();
+            row.innerHTML = `
+                <td>${pessoa.id}</td>
+                <td>${pessoa.nome}</td>
+                <td>${pessoa.cpf}</td>
+                <td>${pessoa.dataNascimento}</td>
+                <td>${pessoa.email}</td>
+                <td>
+                    <button onclick="editPessoa(${pessoa.id})">Editar</button>
+                    <button onclick="deletePessoa(${pessoa.id})">Excluir</button>
+                </td>
+            `;
+        });
     }
 
     function isDuplicate(cpf, email, currentId) {
@@ -177,14 +170,31 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(pessoa => {
                 searchResult.innerHTML = `
-                    <h3>Resultado da Busca</h3>
-                    <p><strong>ID:</strong> ${pessoa.id}</p>
-                    <p><strong>Nome:</strong> ${pessoa.nome}</p>
-                    <p><strong>CPF:</strong> ${pessoa.cpf}</p>
-                    <p><strong>Data de Nascimento:</strong> ${converterDataParaDDMMYYYY(pessoa.dataNascimento)}</p>
-                    <p><strong>Email:</strong> ${pessoa.email}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Data de Nascimento</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${pessoa.id}</td>
+                                <td>${pessoa.nome}</td>
+                                <td>${pessoa.cpf}</td>
+                                <td>${pessoa.dataNascimento}</td>
+                                <td>${pessoa.email}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 `;
                 searchBtn.textContent = 'Ocultar Busca'; // Muda o texto do botão para 'Ocultar Busca'
+
+                // Limpar o campo de busca após encontrar o ID
+                document.getElementById('searchId').value = '';
             })
             .catch(error => {
                 searchResult.innerHTML = `<p>${error.message}</p>`;
@@ -211,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('id').value = pessoa.id;
                 document.getElementById('nome').value = pessoa.nome;
                 document.getElementById('cpf').value = pessoa.cpf;
-                document.getElementById('dataNascimento').value = converterDataParaDDMMYYYY(pessoa.dataNascimento);
+                document.getElementById('dataNascimento').value = pessoa.dataNascimento;
                 document.getElementById('email').value = pessoa.email;
 
                 // Configura o modo do formulário como edição

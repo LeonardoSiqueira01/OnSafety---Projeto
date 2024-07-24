@@ -60,9 +60,9 @@ public class PessoaController {
 	public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa) {
 		Pessoa updatedPessoa = service.updatePessoa(id, pessoa);
 		if (updatedPessoa != null) {
-			return ResponseEntity.ok(updatedPessoa);
+			return new ResponseEntity<>(updatedPessoa, HttpStatus.OK);
 		} else {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -71,12 +71,13 @@ public class PessoaController {
 		try {
 			boolean deleted = service.deletarPorId(id);
 			if (deleted) {
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			} else {
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 		} catch (InvalidObjectException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+
 }

@@ -21,7 +21,7 @@ public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "O Nome é obrigatório")
@@ -34,7 +34,7 @@ public class Pessoa implements Serializable{
     private String cpf;
 
     @Past(message = "Data de nascimento deve ser no passado")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     @Email(message = "Email inválido")
